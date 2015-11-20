@@ -30,7 +30,7 @@ def  gatherScores(scores):
         S[root] = (1, None, None)
         for element in scores:
             #print('Processing %d' % element)
-            S = addScore(S, root, element)
+            addScore(S, root, element)
         
         print('Finished!')
         print(S)
@@ -47,9 +47,7 @@ def addScore(S, root, score):
     if score in S:
         S[score] = (S[score][CNT] + 1, S[score][LEFT], S[score][RIGHT])
     else:
-        S = addChild(S, root, score)
-    
-    return S
+        addChild(S, root, score)
 
 def addChild(S, element, score):
     #print('Try to add %d, to %d' % (score, element) )
@@ -58,22 +56,19 @@ def addChild(S, element, score):
             #print('New Left')
             S[element] = (S[element][CNT], score, S[element][RIGHT])
             S[score] = (1, None, None)
-            return S
         else:
             #print('Go Left')
-            return addChild(S, S[element][LEFT], score)    
+            addChild(S, S[element][LEFT], score)    
     elif element < score:
         if S[element][RIGHT] is None:
             #print('New Right')
             S[element] = (S[element][CNT], S[element][LEFT], score)
             S[score] = (1, None, None)
-            return S
         else:
             #print('Go right')
-            return addChild(S, S[element][RIGHT], score)
+            addChild(S, S[element][RIGHT], score)
     else:
         S[score] = (S[score][CNT] + 1, S[score][LEFT], S[score][RIGHT])
-        return S
 
 def printTree(S, element):
     center = format('%d:%d' % (element, S[element][CNT]))
